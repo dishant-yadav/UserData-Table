@@ -68,7 +68,7 @@ const UserTable = ({ data }: UserTableProps) => {
 
   return (
     <ScrollArea>
-      <Table sx={{ minWidth: 800 }} verticalSpacing="sm">
+      <Table sx={{ minWidth: 400 }} verticalSpacing="sm">
         <thead>
           <tr>
             <th style={{ width: 40 }}>

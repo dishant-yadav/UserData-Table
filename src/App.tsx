@@ -1,14 +1,15 @@
-import { MantineProvider, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
+import { MantineProvider, Text } from "@mantine/core";
 import UserTable from "./components/UserTable";
 
 const App = () => {
+  // function to extract name from email address
   const getNameFromEmail = (email: string) => {
-    var name = email.substring(0, email.indexOf("@"));
-    var names = name.split(/[^a-zA-Z]+/);
-    var firstName = "";
-    var lastName = "";
-    for (var i = 0; i < names.length - 1; i++) {
+    let name = email.substring(0, email.indexOf("@"));
+    let names = name.split(/[^a-zA-Z]+/);
+    let firstName = "";
+    let lastName = "";
+    for (let i = 0; i < names.length - 1; i++) {
       firstName += names[i] + " ";
     }
     lastName = names[names.length - 1];
@@ -18,76 +19,32 @@ const App = () => {
 
   const [users, setUsers] = useState([
     {
-      createdAt: "2023-01-16T10:34:58.213Z",
+      createdAt: "",
       name: "",
-      email: "Arnaldo.Krajcik44@yahoo.com",
-      avatar:
-        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/993.jpg",
-      id: "1",
-    },
-    {
-      createdAt: "2023-01-15T17:44:44.292Z",
-      name: "",
-      email: "Andrew.Graham34@gmail.com",
-      avatar:
-        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1223.jpg",
-      id: "2",
-    },
-    {
-      createdAt: "2023-01-16T05:52:48.949Z",
-      name: "",
-      email: "Hudson_Mayert43@yahoo.com",
-      avatar:
-        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1206.jpg",
-      id: "3",
-    },
-    {
-      createdAt: "2023-01-16T01:42:34.764Z",
-      name: "",
-      email: "Adolfo.OHara@yahoo.com",
-      avatar:
-        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/942.jpg",
-      id: "4",
-    },
-    {
-      createdAt: "2023-01-15T19:36:46.105Z",
-      name: "",
-      email: "Jarrett.Bogisich@yahoo.com",
-      avatar:
-        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1181.jpg",
-      id: "5",
-    },
-    {
-      createdAt: "2023-01-16T07:47:40.063Z",
-      name: "",
-      email: "Xander54@hotmail.com",
-      avatar:
-        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/277.jpg",
-      id: "6",
-    },
-    {
-      createdAt: "2023-01-16T03:54:53.729Z",
-      name: "",
-      email: "somethingelse@yahoo.com",
-      avatar:
-        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/993.jpg",
-      id: "7",
+      email: "",
+      avatar: "",
+      id: "",
     },
   ]);
 
-  // useEffect(() => {
-  //   setUsers(users);
-  // }, []);
+  const getUserData = async () => {
+    // feching data from URL
+    const userData = await fetch(
+      "https://63c57732f80fabd877e93ed1.mockapi.io/api/v1/users"
+    );
+    const userDataJSON = await userData.json();
 
-  const xyz = () => {
-    for (let user of users) {
+    // extracting name from email address in two parts namely first and last name
+    for (let user of userDataJSON) {
       const { firstName, lastName } = getNameFromEmail(user.email);
       user.name = `${firstName} ${lastName}`;
     }
-    console.log(users);
+    setUsers(userDataJSON);
   };
 
-  xyz();
+  useEffect(() => {
+    getUserData();
+  }, []);
 
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>

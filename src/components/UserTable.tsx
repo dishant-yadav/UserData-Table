@@ -56,7 +56,7 @@ const UserTable = ({ data }: UserTableProps) => {
         <td>
           <Group spacing="sm">
             <Avatar size={26} src={item.avatar} radius={26} />
-            <Text size="sm" weight={500}>
+            <Text size="sm" fw={700}>
               {item.name}
             </Text>
           </Group>

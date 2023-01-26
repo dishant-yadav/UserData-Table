@@ -30,13 +30,14 @@ interface UserTableProps {
 
 const UserTable = ({ data }: UserTableProps) => {
   const { classes, cx } = useStyles();
-  const [selection, setSelection] = useState(["1"]);
+  const [selection, setSelection] = useState(["0"]);
   const toggleRow = (id: string) =>
     setSelection((current) =>
       current.includes(id)
         ? current.filter((item) => item !== id)
         : [...current, id]
     );
+
   const toggleAll = () =>
     setSelection((current) =>
       current.length === data.length ? [] : data.map((item) => item.id)
@@ -57,11 +58,11 @@ const UserTable = ({ data }: UserTableProps) => {
           <Group spacing="sm">
             <Avatar size={26} src={item.avatar} radius={26} />
             <Text size="sm" fw={700}>
-              {item.name}
+              {item.name.trim() || "Name Not Provided"}
             </Text>
           </Group>
         </td>
-        <td>{item.email}</td>
+        <td>{item.email.trim() || "Email Not Provided"}</td>
       </tr>
     );
   });

@@ -59,6 +59,10 @@ const App = () => {
     getUserData();
   }, []);
 
+  useEffect(() => {
+    console.log(users);
+  }, [users]);
+
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <AddUser />

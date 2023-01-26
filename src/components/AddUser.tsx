@@ -16,14 +16,45 @@ import {
 } from "@heroicons/react/24/solid";
 
 const AddUser = () => {
-  const createUser = async () => {
-    const userData = {
-      name: "Task4545",
-      email: "task.45454@yahoo.com",
-      avatar:
-        "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/99.jpg",
-    };
+  const [opened, setOpened] = useState<boolean>(false);
+  const [userData, setUserData] = useState<Object>({
+    name: "",
+    email: "",
+    avatar: "",
+  });
+  const [name, setName] = useState<
+    string | number | readonly string[] | undefined
+  >("");
+  const [email, setEmail] = useState<
+    string | number | readonly string[] | undefined
+  >("");
+  const [image, setImage] = useState<File>(new File(["", ""], ""));
 
+  const submitImage = async () => {
+    const data = new FormData();
+    data.append("file", image);
+    data.append("upload_preset", "imageupload");
+    data.append("cloud_name", "dj4mlinfo");
+
+    try {
+      const resData = await fetch(
+        "https://api.cloudinary.com/v1_1/dj4mlinfo/image/upload/",
+        {
+          method: "POST",
+          body: data,
+        }
+      );
+      const resDataJSON = await resData.json();
+      const { secure_url } = resDataJSON;
+      return secure_url;
+    } catch {
+      console.error("Error");
+    }
+  };
+
+  const createUser = async () => {
+    const imageURI = await submitImage();
+    setUserData({ name: name, email: email, avatar: imageURI });
     const requestOptions = {
       method: "post",
       body: JSON.stringify(userData),
@@ -31,24 +62,17 @@ const AddUser = () => {
         "Content-Type": "application/json",
       },
     };
-
-    const resData = await fetch(
+    await fetch(
       "https://63c57732f80fabd877e93ed1.mockapi.io/api/v1/users",
       requestOptions
     );
-    const resDataJSON = await resData.json();
-
-    console.log(resDataJSON);
-
-    if (resData.ok) {
-      console.log("Success");
-    } else {
-      console.log("Error");
-    }
   };
 
-  const [opened, setOpened] = useState(false);
-  const [image, setImage] = useState<File | null>(null);
+  const resetForm = () => {
+    setName("");
+    setEmail("");
+    setImage(new File(["", ""], ""));
+  };
 
   return (
     <>
@@ -69,6 +93,8 @@ const AddUser = () => {
           icon={<AtSymbolIcon width={15} height={15} />}
           withAsterisk
           required
+          value={name}
+          onChange={(event) => setName(event.currentTarget.value)}
         />
         <TextInput
           mt="xs"
@@ -78,6 +104,8 @@ const AddUser = () => {
           icon={<UserIcon width={20} height={15} />}
           withAsterisk
           required
+          value={email}
+          onChange={(event) => setEmail(event.currentTarget.value)}
         />
         <FileInput
           mt="xs"
@@ -90,19 +118,21 @@ const AddUser = () => {
           required
           //   error={"Enter a valid image"}
           value={image}
+          // @ts-ignore
           onChange={setImage}
           accept="image/png,image/jpeg"
           icon={<ArrowUpTrayIcon width={15} height={15} />}
         />
         <Group position="right" mx={"xs"} mt={"xs"}>
-          <Button color="indigo" variant="outline">
+          <Button color="indigo" variant="outline" onClick={resetForm}>
             Reset
           </Button>
           <Button
             color="indigo"
             onClick={async () => {
               await createUser();
-              console.log("Clicked");
+              setOpened(false);
+              resetForm();
             }}
           >
             Submit

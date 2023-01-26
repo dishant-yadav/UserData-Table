@@ -8,6 +8,7 @@ import {
   Avatar,
   Text,
 } from "@mantine/core";
+import userImage from "./../userImage.jpeg";
 
 const useStyles = createStyles((theme) => ({
   rowSelected: {
@@ -45,26 +46,28 @@ const UserTable = ({ data }: UserTableProps) => {
 
   const rows = data.map((item) => {
     const selected = selection.includes(item.id);
-    return (
-      <tr key={item.id} className={cx({ [classes.rowSelected]: selected })}>
-        <td>
-          <Checkbox
-            checked={selection.includes(item.id)}
-            onChange={() => toggleRow(item.id)}
-            transitionDuration={0}
-          />
-        </td>
-        <td>
-          <Group spacing="sm">
-            <Avatar size={26} src={item.avatar} radius={26} />
-            <Text size="sm" fw={700}>
-              {item.name.trim() || "Name Not Provided"}
-            </Text>
-          </Group>
-        </td>
-        <td>{item.email.trim() || "Email Not Provided"}</td>
-      </tr>
-    );
+    if (item.email) {
+      return (
+        <tr key={item.id} className={cx({ [classes.rowSelected]: selected })}>
+          <td>
+            <Checkbox
+              checked={selection.includes(item.id)}
+              onChange={() => toggleRow(item.id)}
+              transitionDuration={0}
+            />
+          </td>
+          <td>
+            <Group spacing="sm">
+              <Avatar size={26} src={item.avatar} radius={26} />
+              <Text size="sm" fw={700}>
+                {item.name.trim()}
+              </Text>
+            </Group>
+          </td>
+          <td>{item.email.trim()}</td>
+        </tr>
+      );
+    }
   });
 
   return (

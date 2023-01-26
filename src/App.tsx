@@ -31,8 +31,8 @@ const App = () => {
   const [users, setUsers] = useState([
     {
       createdAt: "",
-      name: "",
-      email: "",
+      name: "Loading...",
+      email: "Loading...",
       avatar: "",
       id: "",
     },
@@ -58,10 +58,6 @@ const App = () => {
   useEffect(() => {
     getUserData();
   }, []);
-
-  useEffect(() => {
-    console.log(users);
-  }, [users]);
 
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>

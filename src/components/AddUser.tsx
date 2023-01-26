@@ -17,6 +17,7 @@ import {
 
 const AddUser = () => {
   const [opened, setOpened] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
   const [userData, setUserData] = useState<Object>({
     name: "",
     email: "",
@@ -79,7 +80,11 @@ const AddUser = () => {
       <Modal
         opened={opened}
         centered
-        onClose={() => setOpened(false)}
+        onClose={() => {
+          resetForm();
+          setError(false);
+          setOpened(false);
+        }}
         title="Add Details"
         transition="slide-down"
         transitionDuration={400}
@@ -91,6 +96,7 @@ const AddUser = () => {
           placeholder="John Doe"
           inputWrapperOrder={["label", "input", "description", "error"]}
           icon={<AtSymbolIcon width={15} height={15} />}
+          error={error && !name && "Please enter name"}
           withAsterisk
           required
           value={name}
@@ -104,6 +110,7 @@ const AddUser = () => {
           icon={<UserIcon width={20} height={15} />}
           withAsterisk
           required
+          error={error && !email && "Please enter email"}
           value={email}
           onChange={(event) => setEmail(event.currentTarget.value)}
         />
@@ -116,23 +123,37 @@ const AddUser = () => {
           radius="md"
           withAsterisk
           required
-          //   error={"Enter a valid image"}
           value={image}
           // @ts-ignore
           onChange={setImage}
           accept="image/png,image/jpeg"
           icon={<ArrowUpTrayIcon width={15} height={15} />}
         />
-        <Group position="right" mx={"xs"} mt={"xs"}>
-          <Button color="indigo" variant="outline" onClick={resetForm}>
+        <Text size={12} fw={400} color="red">
+          {error && !image.name && "Please enter image"}
+        </Text>
+        <Group position="right" mx={"xs"} mt={"xl"}>
+          <Button
+            color="indigo"
+            variant="outline"
+            onClick={() => {
+              setError(false);
+              resetForm();
+            }}
+          >
             Reset
           </Button>
           <Button
             color="indigo"
             onClick={async () => {
-              await createUser();
-              setOpened(false);
-              resetForm();
+              if (!name || !email || !image.name) {
+                setError(true);
+              } else {
+                setError(false);
+                await createUser();
+                setOpened(false);
+                resetForm();
+              }
             }}
           >
             Submit

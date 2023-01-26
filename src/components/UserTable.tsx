@@ -8,7 +8,6 @@ import {
   Avatar,
   Text,
 } from "@mantine/core";
-import userImage from "./../userImage.jpeg";
 
 const useStyles = createStyles((theme) => ({
   rowSelected: {

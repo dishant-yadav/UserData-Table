@@ -5,16 +5,19 @@ import AddUser from "./components/AddUser";
 
 const App = () => {
   // function to capitalize text
-  const capitalizeText = (text: string) => {
+  const modifyText = (text: string) => {
     const capitalized =
       text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-    return capitalized;
+    // code to extract only letters
+    const finalString = capitalized.replace(/[^a-zA-Z]/g, "");
+    return finalString;
   };
 
   // function to extract name from email address
-  const getNameFromEmail = (email: string) => {
-    let name = email.substring(0, email.indexOf("@"));
-    let names = name.split(/[^a-zA-Z]+/);
+  function getNameFromEmail(email: string) {
+    const name = email.substring(0, email.indexOf("@"));
+    const names = name.split(/[._/]/);
+    const namesFinal = name.split("");
     let firstName = "";
     let lastName = "";
     for (let i = 0; i < names.length - 1; i++) {
@@ -23,10 +26,10 @@ const App = () => {
     lastName = names[names.length - 1];
 
     return {
-      firstName: capitalizeText(firstName.trim()),
-      lastName: capitalizeText(lastName),
+      firstName: modifyText(firstName.trim()),
+      lastName: modifyText(lastName),
     };
-  };
+  }
 
   const [users, setUsers] = useState([
     {
@@ -58,6 +61,10 @@ const App = () => {
   useEffect(() => {
     getUserData();
   }, []);
+
+  useEffect(() => {
+    console.log(users);
+  }, [users]);
 
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>

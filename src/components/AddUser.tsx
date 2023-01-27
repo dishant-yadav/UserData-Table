@@ -20,6 +20,7 @@ const AddUser = () => {
   const emailRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
+  const [submit, setSubmit] = useState(false);
   const [opened, setOpened] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [userData, setUserData] = useState<Object>({
@@ -84,7 +85,9 @@ const AddUser = () => {
   };
 
   useEffect(() => {
-    createUser();
+    if (submit) {
+      createUser();
+    }
   }, [userData]);
 
   return (
@@ -191,6 +194,7 @@ const AddUser = () => {
               } else {
                 setError(false);
                 await handleSubmit();
+                setSubmit(true);
                 setOpened(false);
                 resetForm();
               }

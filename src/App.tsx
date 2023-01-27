@@ -44,7 +44,7 @@ const App = () => {
   const getUserData = async () => {
     // feching data from URL
     const userData = await fetch(
-      "https://63c57732f80fabd877e93ed1.mockapi.io/api/v1/users"
+      "https://63d36305c1ba499e54c061d3.mockapi.io/api/v1/users/"
     );
     const userDataJSON = await userData.json();
 

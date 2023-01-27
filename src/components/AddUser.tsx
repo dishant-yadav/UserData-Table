@@ -53,9 +53,12 @@ const AddUser = () => {
     }
   };
 
-  const createUser = async () => {
+  const handleSubmit = async () => {
     const imageURI = await submitImage();
     setUserData({ name: name, email: email, avatar: imageURI });
+  };
+
+  const createUser = async () => {
     const requestOptions = {
       method: "post",
       body: JSON.stringify(userData),
@@ -63,10 +66,11 @@ const AddUser = () => {
         "Content-Type": "application/json",
       },
     };
-    await fetch(
-      "https://63c57732f80fabd877e93ed1.mockapi.io/api/v1/users",
+    const resData = await fetch(
+      "https://63d36305c1ba499e54c061d3.mockapi.io/api/v1/users/",
       requestOptions
     );
+    return resData.ok;
   };
 
   const resetForm = () => {
@@ -74,6 +78,10 @@ const AddUser = () => {
     setEmail("");
     setImage(new File(["", ""], ""));
   };
+
+  useEffect(() => {
+    createUser();
+  }, [userData]);
 
   return (
     <>
@@ -150,9 +158,9 @@ const AddUser = () => {
                 setError(true);
               } else {
                 setError(false);
-                await createUser();
+                await handleSubmit();
                 setOpened(false);
-                resetForm();
+                // resetForm();
               }
             }}
           >

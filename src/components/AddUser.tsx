@@ -107,7 +107,7 @@ const AddUser = () => {
           label="Name"
           placeholder="John Doe"
           inputWrapperOrder={["label", "input", "description", "error"]}
-          icon={<AtSymbolIcon width={15} height={15} />}
+          icon={<AtSymbolIcon width={15} height={15} color={"black"} />}
           withAsterisk
           required
           value={name}
@@ -128,7 +128,7 @@ const AddUser = () => {
           label="Email"
           placeholder="john.doe@gmail.com"
           inputWrapperOrder={["label", "input", "description", "error"]}
-          icon={<UserIcon width={20} height={15} />}
+          icon={<UserIcon width={20} height={15} color={"black"} />}
           withAsterisk
           required
           value={email}
@@ -159,7 +159,7 @@ const AddUser = () => {
           // @ts-ignore
           onChange={setImage}
           accept="image/png,image/jpeg"
-          icon={<ArrowUpTrayIcon width={15} height={15} />}
+          icon={<ArrowUpTrayIcon width={15} height={15} color={"black"} />}
         />
         {error && !image.name && (
           <Text size={12} fw={400} color="red">

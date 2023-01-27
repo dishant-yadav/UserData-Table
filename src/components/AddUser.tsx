@@ -17,8 +17,7 @@ import {
 
 const AddUser = () => {
   const nameRegex = /[^a-zA-Z]/;
-  const emailRegex =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
   const [submit, setSubmit] = useState(false);
   const [opened, setOpened] = useState<boolean>(false);
@@ -99,6 +98,7 @@ const AddUser = () => {
           resetForm();
           setError(false);
           setOpened(false);
+          setSubmit(false);
         }}
         title="Add Details"
         transition="slide-down"

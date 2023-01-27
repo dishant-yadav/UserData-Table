@@ -132,7 +132,9 @@ const AddUser = () => {
           withAsterisk
           required
           value={email}
-          onChange={(event) => setEmail(event.currentTarget.value)}
+          onChange={(event) => {
+            setEmail(event.currentTarget.value);
+          }}
         />
         {error && !email && (
           <Text size={12} fw={400} color="red">

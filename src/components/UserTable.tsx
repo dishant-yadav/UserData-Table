@@ -7,6 +7,7 @@ import {
   Group,
   Avatar,
   Text,
+  Center,
 } from "@mantine/core";
 
 const useStyles = createStyles((theme) => ({
@@ -45,7 +46,8 @@ const UserTable = ({ data }: UserTableProps) => {
 
   const rows = data.map((item) => {
     const selected = selection.includes(item.id);
-    if (item.email) {
+    // condition to check for empty email and avatar
+    if (item.email && item.avatar) {
       return (
         <tr key={item.id} className={cx({ [classes.rowSelected]: selected })}>
           <td>
@@ -71,25 +73,33 @@ const UserTable = ({ data }: UserTableProps) => {
 
   return (
     <ScrollArea>
-      <Table sx={{ minWidth: 400 }} verticalSpacing="sm">
-        <thead>
-          <tr>
-            <th style={{ width: 40 }}>
-              <Checkbox
-                onChange={toggleAll}
-                checked={selection.length === data.length}
-                indeterminate={
-                  selection.length > 0 && selection.length !== data.length
-                }
-                transitionDuration={0}
-              />
-            </th>
-            <th>User</th>
-            <th>Email</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
+      {data.length > 0 ? (
+        <Table sx={{ minWidth: 400 }} verticalSpacing="sm">
+          <thead>
+            <tr>
+              <th style={{ width: 40 }}>
+                <Checkbox
+                  onChange={toggleAll}
+                  checked={selection.length === data.length}
+                  indeterminate={
+                    selection.length > 0 && selection.length !== data.length
+                  }
+                  transitionDuration={0}
+                />
+              </th>
+              <th>User</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </Table>
+      ) : (
+        <Center style={{ height: 200 }}>
+          <Text fw={500} fz="xl">
+            No Data to Show
+          </Text>
+        </Center>
+      )}
     </ScrollArea>
   );
 };

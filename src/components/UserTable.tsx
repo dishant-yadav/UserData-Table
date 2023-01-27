@@ -31,7 +31,7 @@ interface UserTableProps {
 
 const UserTable = ({ data }: UserTableProps) => {
   const { classes, cx } = useStyles();
-  const [selection, setSelection] = useState(["0"]);
+  const [selection, setSelection] = useState<string[]>(["0"]);
   const toggleRow = (id: string) =>
     setSelection((current) =>
       current.includes(id)

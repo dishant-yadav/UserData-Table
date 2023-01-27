@@ -4,6 +4,24 @@ import UserTable from "./components/UserTable";
 import AddUser from "./components/AddUser";
 
 const App = () => {
+  const [users, setUsers] = useState<
+    Array<{
+      createdAt: string;
+      name: string;
+      email: string;
+      avatar: string;
+      id: string;
+    }>
+  >([
+    {
+      createdAt: "",
+      name: "Loading...",
+      email: "Loading...",
+      avatar: "",
+      id: "",
+    },
+  ]);
+
   // function to capitalize text
   const modifyText = (text: string) => {
     const capitalized =
@@ -30,16 +48,6 @@ const App = () => {
       lastName: modifyText(lastName),
     };
   }
-
-  const [users, setUsers] = useState([
-    {
-      createdAt: "",
-      name: "Loading...",
-      email: "Loading...",
-      avatar: "",
-      id: "",
-    },
-  ]);
 
   const getUserData = async () => {
     // feching data from URL

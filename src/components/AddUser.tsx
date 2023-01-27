@@ -16,6 +16,10 @@ import {
 } from "@heroicons/react/24/solid";
 
 const AddUser = () => {
+  const nameRegex = /[^a-zA-Z]/;
+  const emailRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
   const [opened, setOpened] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [userData, setUserData] = useState<Object>({
@@ -104,12 +108,21 @@ const AddUser = () => {
           placeholder="John Doe"
           inputWrapperOrder={["label", "input", "description", "error"]}
           icon={<AtSymbolIcon width={15} height={15} />}
-          error={error && !name && "Please enter name"}
           withAsterisk
           required
           value={name}
           onChange={(event) => setName(event.currentTarget.value)}
         />
+        {error && !name && (
+          <Text size={12} fw={400} color="red">
+            Please enter name
+          </Text>
+        )}
+        {error && name && name?.toString().match(nameRegex) && (
+          <Text size={12} fw={400} color="red">
+            Please enter a valid name
+          </Text>
+        )}
         <TextInput
           mt="xs"
           label="Email"
@@ -118,10 +131,19 @@ const AddUser = () => {
           icon={<UserIcon width={20} height={15} />}
           withAsterisk
           required
-          error={error && !email && "Please enter email"}
           value={email}
           onChange={(event) => setEmail(event.currentTarget.value)}
         />
+        {error && !email && (
+          <Text size={12} fw={400} color="red">
+            Please enter email
+          </Text>
+        )}
+        {error && email && !email?.toString().match(emailRegex) && (
+          <Text size={12} fw={400} color="red">
+            Please enter a valid email
+          </Text>
+        )}
         <FileInput
           mt="xs"
           placeholder="Pick Image"
@@ -137,9 +159,11 @@ const AddUser = () => {
           accept="image/png,image/jpeg"
           icon={<ArrowUpTrayIcon width={15} height={15} />}
         />
-        <Text size={12} fw={400} color="red">
-          {error && !image.name && "Please enter image"}
-        </Text>
+        {error && !image.name && (
+          <Text size={12} fw={400} color="red">
+            Please enter image
+          </Text>
+        )}
         <Group position="right" mx={"xs"} mt={"xl"}>
           <Button
             color="indigo"
@@ -154,13 +178,19 @@ const AddUser = () => {
           <Button
             color="indigo"
             onClick={async () => {
-              if (!name || !email || !image.name) {
+              if (
+                !name ||
+                !email ||
+                !image.name ||
+                name?.toString().match(nameRegex) ||
+                !email?.toString().match(emailRegex)
+              ) {
                 setError(true);
               } else {
                 setError(false);
                 await handleSubmit();
                 setOpened(false);
-                // resetForm();
+                resetForm();
               }
             }}
           >

@@ -71,7 +71,7 @@ const AddUser = () => {
       !name ||
       !email ||
       !image.name ||
-      name?.toString().match(nameRegex) ||
+      (name?.toString() + " ").match(nameRegex) ||
       !email?.toString().match(emailRegex)
     ) {
       setError(true);
@@ -128,7 +128,7 @@ const AddUser = () => {
               Please enter name
             </Text>
           )}
-          {error && name && name?.toString().match(nameRegex) && (
+          {error && name && (name?.toString() + " ").match(nameRegex) && (
             <Text size={12} fw={400} color="red">
               Please enter a valid name
             </Text>

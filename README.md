@@ -13,27 +13,27 @@
 
   - Paste this command  
 
-        ``` bash
-        git clone git@github.com:dishant-yadav/UserData-Table.git
-        ```
+      ```bash
+      git clone git@github.com:dishant-yadav/UserData-Table.git
+      ```
 
   - Then move to the directory by using the cd command
 
-        ``` bash
-            cd UserData-Table
-        ```
+      ``` bash
+      cd UserData-Table
+      ```
 
   - Then install the required node_modules by running the below command
 
-        ``` bash
-        npm install
-        ```
+      ``` bash
+      npm install
+      ```
 
   - After that type this command to start the localhost
 
-        ``` bash
-        npm run start
-        ```
+      ``` bash
+      npm run start
+      ```
 
 Using the  above commands will start the app on your localhost at PORT number 3000
 

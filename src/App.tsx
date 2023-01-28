@@ -35,7 +35,6 @@ const App = () => {
   function getNameFromEmail(email: string) {
     const name = email.substring(0, email.indexOf("@"));
     const names = name.split(/[._/]/);
-    const namesFinal = name.split("");
     let firstName = "";
     let lastName = "";
     for (let i = 0; i < names.length - 1; i++) {
@@ -69,10 +68,6 @@ const App = () => {
   useEffect(() => {
     getUserData();
   }, []);
-
-  useEffect(() => {
-    console.log(users);
-  }, [users]);
 
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>

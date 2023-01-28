@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Modal,
   Button,
@@ -14,17 +14,12 @@ import {
 } from "@heroicons/react/24/solid";
 
 const AddUser = () => {
-  const nameRegex = /[^a-zA-Z]/;
+  const nameRegex = /^[a-zA-Z]+ [a-zA-Z]+$/;
   const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
   const [submit, setSubmit] = useState(false);
   const [opened, setOpened] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
-  const [userData, setUserData] = useState<Object>({
-    name: "",
-    email: "",
-    avatar: "",
-  });
   const [name, setName] = useState<
     string | number | readonly string[] | undefined
   >("");
@@ -55,13 +50,7 @@ const AddUser = () => {
     }
   };
 
-  const handleSubmit = async () => {
-    setSubmit(true);
-    const imageURI = await submitImage();
-    setUserData({ name: name, email: email, avatar: imageURI });
-  };
-
-  const createUser = async () => {
+  const createUser = async (userData: Object) => {
     const requestOptions = {
       method: "post",
       body: JSON.stringify(userData),
@@ -76,17 +65,36 @@ const AddUser = () => {
     return resData.ok;
   };
 
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    if (
+      !name ||
+      !email ||
+      !image.name ||
+      name?.toString().match(nameRegex) ||
+      !email?.toString().match(emailRegex)
+    ) {
+      setError(true);
+    } else {
+      setSubmit(true);
+      const imageURI = await submitImage();
+      const userData = {
+        name,
+        avatar: imageURI,
+        email,
+      };
+      setOpened(false);
+      await createUser(userData);
+      resetForm();
+    }
+  };
+
   const resetForm = () => {
     setName("");
     setEmail("");
     setImage(new File(["", ""], ""));
+    setError(false);
   };
-
-  useEffect(() => {
-    if (submit) {
-      createUser();
-    }
-  }, [userData]);
 
   return (
     <>
@@ -104,104 +112,84 @@ const AddUser = () => {
         transitionDuration={400}
         transitionTimingFunction="ease"
       >
-        <TextInput
-          mt="xs"
-          label="Name"
-          placeholder="John Doe"
-          inputWrapperOrder={["label", "input", "description", "error"]}
-          icon={<AtSymbolIcon width={15} height={15} color={"black"} />}
-          withAsterisk
-          required
-          value={name}
-          onChange={(event) => setName(event.currentTarget.value)}
-        />
-        {error && !name && (
-          <Text size={12} fw={400} color="red">
-            Please enter name
-          </Text>
-        )}
-        {error && name && name?.toString().match(nameRegex) && (
-          <Text size={12} fw={400} color="red">
-            Please enter a valid name
-          </Text>
-        )}
-        <TextInput
-          mt="xs"
-          label="Email"
-          placeholder="john.doe@gmail.com"
-          inputWrapperOrder={["label", "input", "description", "error"]}
-          icon={<UserIcon width={20} height={15} color={"black"} />}
-          withAsterisk
-          required
-          value={email}
-          onChange={(event) => {
-            setEmail(event.currentTarget.value);
-          }}
-        />
-        {error && !email && (
-          <Text size={12} fw={400} color="red">
-            Please enter email
-          </Text>
-        )}
-        {error && email && !email?.toString().match(emailRegex) && (
-          <Text size={12} fw={400} color="red">
-            Please enter a valid email
-          </Text>
-        )}
-        <FileInput
-          mt="xs"
-          placeholder="Pick Image"
-          label="Your Avatar"
-          size="md"
-          description="Only PNG or JPEG formats"
-          radius="md"
-          withAsterisk
-          required
-          value={image}
-          // @ts-ignore
-          onChange={setImage}
-          accept="image/png,image/jpeg"
-          icon={<ArrowUpTrayIcon width={15} height={15} color={"black"} />}
-        />
-        {error && !image.name && (
-          <Text size={12} fw={400} color="red">
-            Please enter image
-          </Text>
-        )}
-        <Group position="right" mx={"xs"} mt={"xl"}>
-          <Button
-            color="indigo"
-            variant="outline"
-            onClick={() => {
-              setError(false);
-              resetForm();
+        <form onSubmit={async (e: any) => await handleSubmit(e)}>
+          <TextInput
+            mt="xs"
+            label="Name"
+            placeholder="John Doe"
+            inputWrapperOrder={["label", "input", "description", "error"]}
+            icon={<AtSymbolIcon width={15} height={15} color={"black"} />}
+            withAsterisk
+            value={name}
+            onChange={(event) => setName(event.currentTarget.value)}
+          />
+          {error && !name && (
+            <Text size={12} fw={400} color="red">
+              Please enter name
+            </Text>
+          )}
+          {error && name && name?.toString().match(nameRegex) && (
+            <Text size={12} fw={400} color="red">
+              Please enter a valid name
+            </Text>
+          )}
+          <TextInput
+            mt="xs"
+            label="Email"
+            placeholder="john.doe@gmail.com"
+            inputWrapperOrder={["label", "input", "description", "error"]}
+            icon={<UserIcon width={20} height={15} color={"black"} />}
+            withAsterisk
+            value={email}
+            onChange={(event) => {
+              setEmail(event.currentTarget.value);
             }}
-          >
-            Reset
-          </Button>
-          <Button
-            color="indigo"
-            disabled={submit}
-            onClick={async () => {
-              if (
-                !name ||
-                !email ||
-                !image.name ||
-                name?.toString().match(nameRegex) ||
-                !email?.toString().match(emailRegex)
-              ) {
-                setError(true);
-              } else {
-                setError(false);
-                await handleSubmit();
-                setOpened(false);
+          />
+          {error && !email && (
+            <Text size={12} fw={400} color="red">
+              Please enter email
+            </Text>
+          )}
+          {error && email && !email?.toString().match(emailRegex) && (
+            <Text size={12} fw={400} color="red">
+              Please enter a valid email
+            </Text>
+          )}
+          <FileInput
+            mt="xs"
+            placeholder="Pick Image"
+            label="Your Avatar"
+            size="md"
+            description="Only PNG or JPEG formats"
+            radius="md"
+            withAsterisk
+            value={image}
+            // @ts-ignore
+            onChange={setImage}
+            accept="image/png,image/jpeg"
+            icon={<ArrowUpTrayIcon width={15} height={15} color={"black"} />}
+          />
+          {error && !image.name && (
+            <Text size={12} fw={400} color="red">
+              Please enter image
+            </Text>
+          )}
+          <Group position="right" mx={"xs"} mt={"xl"}>
+            <Button
+              type="reset"
+              color="indigo"
+              variant="outline"
+              onClick={() => {
                 resetForm();
-              }
-            }}
-          >
-            Submit
-          </Button>
-        </Group>
+              }}
+            >
+              Reset
+            </Button>
+            <Button type="submit" color="indigo" disabled={submit}>
+              Submit
+            </Button>
+          </Group>
+        </form>
       </Modal>
       <Group position="apart" mx={"xl"} mt={4}>
         <Text

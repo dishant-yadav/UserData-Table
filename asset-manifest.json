@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/UserData-Table/static/js/main.9ff6f66d.js",
+    "main.js": "/UserData-Table/static/js/main.a1d5ab52.js",
     "index.html": "/UserData-Table/index.html",
-    "main.9ff6f66d.js.map": "/UserData-Table/static/js/main.9ff6f66d.js.map"
+    "main.a1d5ab52.js.map": "/UserData-Table/static/js/main.a1d5ab52.js.map"
   },
   "entrypoints": [
-    "static/js/main.9ff6f66d.js"
+    "static/js/main.a1d5ab52.js"
   ]
 }

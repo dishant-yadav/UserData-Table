@@ -1,46 +1,46 @@
-# Getting Started with Create React App
+# Guide to run the program
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## There are two ways to run the program
 
-## Available Scripts
+    - Website
+    - Locally
 
-In the project directory, you can run:
+- ### To run it on the website you can simpily visit  this [URL](https://dishant-yadav.github.io/UserData-Table/)
 
-### `npm start`
+- ### To run it on locally these are the steps one needs to follow
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+  - Open the terminal
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+  - Paste this command  
 
-### `npm test`
+        ``` bash
+        git clone git@github.com:dishant-yadav/UserData-Table.git
+        ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  - Then move to the directory by using the cd command
 
-### `npm run build`
+        ``` bash
+            cd UserData-Table
+        ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  - Then install the required node_modules by running the below command
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+        ``` bash
+        npm install
+        ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  - After that type this command to start the localhost
 
-### `npm run eject`
+        ``` bash
+        npm run start
+        ```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Using the  above commands will start the app on your localhost at PORT number 3000
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+[GithHub Link](https://github.com/dishant-yadav/UserData-Table/)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+[Live Link](https://dishant-yadav.github.io/UserData-Table/)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+The website opens with a header which contains a heading with title Users List and add user button.
+Below this the there is a list of users fetched from the API even with the option to select from the table. Clicking on the table opens a modal with a form containing Name, Email and Avatar as required fields with proper validations with a submit button. Clicking the button will post the data to the API. 

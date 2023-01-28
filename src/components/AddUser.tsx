@@ -4,9 +4,7 @@ import {
   Button,
   Group,
   FileInput,
-  Input,
   TextInput,
-  Space,
   Text,
 } from "@mantine/core";
 import {
@@ -58,6 +56,7 @@ const AddUser = () => {
   };
 
   const handleSubmit = async () => {
+    setSubmit(true);
     const imageURI = await submitImage();
     setUserData({ name: name, email: email, avatar: imageURI });
   };
@@ -182,6 +181,7 @@ const AddUser = () => {
           </Button>
           <Button
             color="indigo"
+            disabled={submit}
             onClick={async () => {
               if (
                 !name ||
@@ -194,7 +194,6 @@ const AddUser = () => {
               } else {
                 setError(false);
                 await handleSubmit();
-                setSubmit(true);
                 setOpened(false);
                 resetForm();
               }
@@ -214,7 +213,14 @@ const AddUser = () => {
         >
           Users List
         </Text>
-        <Button onClick={() => setOpened(true)}>Add User</Button>
+        <Button
+          onClick={() => {
+            setOpened(true);
+            setSubmit(false);
+          }}
+        >
+          Add User
+        </Button>
       </Group>
     </>
   );

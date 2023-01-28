@@ -46,8 +46,8 @@ const UserTable = ({ data }: UserTableProps) => {
 
   const rows = data.map((item) => {
     const selected = selection.includes(item.id);
-    // condition to check for empty email and avatar
-    if (item.email && item.avatar) {
+    // condition to check for empty email
+    if (item.email) {
       return (
         <tr key={item.id} className={cx({ [classes.rowSelected]: selected })}>
           <td>
